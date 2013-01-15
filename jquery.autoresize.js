@@ -33,26 +33,27 @@
 
 	$.fn.autoResize = function (options) {
 
-		var defaults = {
-				'appendToElement'	: 'body',
-				'defaultRowCount'	: 2,
-				'events'			: 'blur focus keyup',
-				'leadingRows'		: 0,
-				'maxWidth'			: '95%'
-			},
-			settings = $.extend(defaults, options),
-			textClone = $('<span></span>')
-				.css({
-					'display'	: 'block',
-					'position'	: 'absolute',
-					'visibility': 'hidden',
-					'word-wrap'	: 'break-word'
-				})
-				.attr('id', 'text_clone')
-				.appendTo(settings.appendToElement),
-			textAreaLastIndex = (this.length - 1),
-			textAreaObjs = [],
-			textAreaRows = [];
+		var
+		defaults = {
+			'appendToElement': 'body',
+			'defaultRowCount': 2,
+			'events': 'blur focus keyup',
+			'leadingRows': 0,
+			'maxWidth': '95%'
+		},
+		settings = $.extend(defaults, options),
+		textClone = $('<span></span>')
+			.css({
+				'display': 'block',
+				'position': 'absolute',
+				'visibility': 'hidden',
+				'word-wrap': 'break-word'
+			})
+			.attr('id', 'text_clone')
+			.appendTo(settings.appendToElement),
+		textAreaLastIndex = (this.length - 1),
+		textAreaObjs = [],
+		textAreaRows = [];
 
 		//------------------------------------------------
 		// I left this text from jQuery's documentation as
@@ -65,9 +66,10 @@
 
 		return this.each(function(index) {
 
-			var textArea 		= this,
-				defaultRowCount = parseInt( $(textArea).attr('rows') || settings.defaultRowCount ),
-				events 			= settings.events + ' mouseup';
+			var
+			textArea = this,
+			defaultRowCount = parseInt( $(textArea).attr('rows') || settings.defaultRowCount ),
+			events = settings.events + ' mouseup';
 
 			// Self explanitory
 			setTextAreaStyles(textArea);
@@ -97,7 +99,9 @@
 
 		function setTextAreaStyles(textArea) {
 
-			var textAreaMaxWidth = $(textArea).css('max-width');
+			var
+			textAreaMaxWidth = $(textArea).css('max-width');
+
 			// Set overflow:hidden if not already to hide
 			// the scroll bar
 			if ($(textArea).css('overflow') != 'hidden') {
@@ -115,6 +119,7 @@
 		}
 
 		function parseMaxWidth(maxWidth) {
+			
 			return (
 				isPercent(maxWidth) && parseFloat(maxWidth) <= 100 ?
 				maxWidth : '100%'
@@ -123,12 +128,13 @@
 
 		function adjustHeight(textArea, defaultRows) {
 
-			var	defaultHeight 	= 0,
-				lineHeight 		= 0,
-				textCloneHeight = 0,
-				leadingRowsHtml	= addLeadingRows(settings.leadingRows),
-				textAreaHtml 	= $(textArea).val().replace(/\n/g, '<br>'),
-				textCloneHtml	= textAreaHtml + leadingRowsHtml;
+			var
+			defaultHeight = 0,
+			lineHeight = 0,
+			textCloneHeight = 0,
+			leadingRowsHtml = addLeadingRows(settings.leadingRows),
+			textAreaHtml = $(textArea).val().replace(/\n/g, '<br>'),
+			textCloneHtml = textAreaHtml + leadingRowsHtml;
 
 			// Apply styling matching the dimensional styles of
 			// the textarea for accurate calulations. Namely,
@@ -162,7 +168,8 @@
 
 		function addLeadingRows(rowsCount) {
 
-			var newlines = '';
+			var
+			newlines = '';
 
 			for (var i = 0, j = rowsCount; i < j; i++) {
 				newlines += '<br>.';
@@ -173,15 +180,16 @@
 
 		function applyDimensionalStyles(textArea) {
 
-			var css = {},
-				properties = [
-					'font-family',
-					'font-size'	,
-					'font-weight',
-					'line-height',
-					'padding',
-					'width'
-				];
+			var
+			css = {},
+			properties = [
+				'font-family',
+				'font-size'	,
+				'font-weight',
+				'line-height',
+				'padding',
+				'width'
+			];
 
 			for (var i = 0, j = properties.length; i < j; i++) {
 				css[properties[i]] = textArea.css(properties[i]);
