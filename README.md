@@ -3,7 +3,6 @@
 jQuery plugin to automatically resize textareas on focus, blur, keyup, or window resize.
 
 ## Options
-***
 
 #### `appendToElement :[Default: 'body']`
 Set this value to append the clone element to any element of your choice..
