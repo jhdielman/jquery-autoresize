@@ -18,3 +18,23 @@ This is the number of rows to lead with. If this is set to 1 or '1', there will 
 
 #### `maxWidth : [Default: '95%']`
 This value will restrict the textarea from being resized beyond the confines of the containing element. This comes in really handy when resizing the window or viewing the textarea on a mobile device.
+
+## Exampl Usage
+
+```js
+$(document).ready(function() {
+	
+	// To use default options
+	$('#my_textarea_selector').autoResize();
+
+	// Override the defaults
+	$('#my_other_textarea_selector').autoResize({
+		appendToElement: 'div#my_clone_container',
+		defaultRowCount: 3,
+		events: 'keyup',
+		leadingRows: 1,
+		maxWidth: '80%'
+	});
+	
+});
+```
