@@ -19,7 +19,7 @@ This is the number of rows to lead with. If this is set to 1 or '1', there will 
 #### `maxWidth : [Default: '95%']`
 This value will restrict the textarea from being resized beyond the confines of the containing element. This comes in really handy when resizing the window or viewing the textarea on a mobile device.
 
-## Exampl Usage
+## Example Usage
 
 ```js
 $(document).ready(function() {
