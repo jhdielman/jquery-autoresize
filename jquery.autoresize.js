@@ -1,5 +1,5 @@
 /**
- * jQuery TextareaAutoResize Plugin v1.0
+ * jQuery AutoResize Plugin v1.0
  *
  *
  * Copyright (c) 2012 Jason Dielman
@@ -11,8 +11,8 @@
  * AND...
  *
  * Because this is oringinally inspired by Jevin O. Sewaruth's <jevin9@gmail.com>
- * Autogrow Textarea Plugin Version v2.0
- * http://www.technoreply.com/autogrow-textarea-plugin-version-2-0
+ * Autogrow textArea Plugin Version v2.0
+ * http://www.technoreply.com/autogrow-textArea-plugin-version-2-0
  * 
  * I have decided to honor his "Beer-Ware" licence agreement.
  * ----------------------------------------------------------------------------
@@ -28,18 +28,17 @@
  *
  * Date: Dec 17, 2012
  */
-;
-(function ($) {
+;(function ($) {
 
 	$.fn.autoResize = function (options) {
 
 		var
 		defaults = {
-			'appendToElement': 'body',
-			'defaultRowCount': 2,
-			'events': 'blur focus keyup',
-			'leadingRows': 0,
-			'maxWidth': '95%'
+			appendToElement: 'body',
+			defaultRowCount: 2,
+			events: 'blur focus keyup mouseup',
+			leadingRows: 0,
+			maxWidth: '95%'
 		},
 		settings = $.extend(defaults, options),
 		textClone = $('<span></span>')
@@ -55,62 +54,47 @@
 		textAreaObjs = [],
 		textAreaRows = [];
 
-		//------------------------------------------------
-		// I left this text from jQuery's documentation as
-		// a reminder...
-		// 
-		// "there's no need to do $(this) because 'this'
-		// is already a jquery textAreaect. $(this) would be
-		// the same as $($('#element'));"
-		//------------------------------------------------
-
 		return this.each(function(index) {
 
 			var
 			textArea = this,
-			defaultRowCount = parseInt( $(textArea).attr('rows') || settings.defaultRowCount ),
-			events = settings.events + ' mouseup';
+			defaultRowCount = parseInt( $(textArea).attr('rows') || settings.defaultRowCount );
 
 			// Self explanitory
-			setTextAreaStyles(textArea);
+			settextAreaStyles(textArea);
 
 			// Assign the events to each textarea
-			$(textArea).off(events).on(events, function() {
+			$(textArea).off(settings.events).on(settings.events, function() {
 				adjustHeight(textArea, defaultRowCount);
 			});
 
-			// We only want to attach the window resize event once, so we'll
-			// push each textarea textAreaect and rowCount to use as arguments on
-			// the window resize event which we assign when we are in the
-			// final loop
+			// Load textarea objects and corresponding rows
 			textAreaObjs.push(textArea);
 			textAreaRows.push(defaultRowCount);
+
 			if (index == textAreaLastIndex) {
-				$(window).off('resize').on('resize', function() {
-					for (var i = 0; i < textAreaLastIndex; i++) {
+				$(window).on('resize', function() {
+					for (var i = 0; i <= textAreaLastIndex; i++) {
 						adjustHeight(textAreaObjs[i], textAreaRows[i]);
 					}
 				});
 			}
 
-			// Perform on each textarea to start
+			// Initialize on each textarea
 			adjustHeight(textArea, defaultRowCount);
 		});
 
-		function setTextAreaStyles(textArea) {
+		function settextAreaStyles(textArea) {
 
 			var
 			textAreaMaxWidth = $(textArea).css('max-width');
 
-			// Set overflow:hidden if not already to hide
-			// the scroll bar
+			// Hide scrollbar
 			if ($(textArea).css('overflow') != 'hidden') {
 				$(textArea).css({'overflow':'hidden'});
 			}
 
-			// Also, lets make this responsive and set the
-			// default max-width as well. I'm placing this
-			// in a function because...
+			// Set max width
 			if (textAreaMaxWidth == 'none') {
 				$(textArea).css({'max-width': parseMaxWidth(settings.maxWidth)});
 			} else {
@@ -136,25 +120,23 @@
 			textAreaHtml = $(textArea).val().replace(/\n/g, '<br>'),
 			textCloneHtml = textAreaHtml + leadingRowsHtml;
 
-			// Apply styling matching the dimensional styles of
-			// the textarea for accurate calulations. Namely,
-			// font styling and padding.
+			// Apply dimensional styles of for accurate calulations.
 			textClone.css(applyDimensionalStyles($(textArea)));
 
-			// Get line height after all styles have been applied
-			// using a test character, then get the height.
+			// After all styles have been applied get the height
+			// using a test character.
 			lineHeight = textClone.html('A').height();
 
-			// Calculate the default height for the textarea.
+			// Calculate the default height.
 			defaultHeight = ((defaultRows + settings.leadingRows) * lineHeight);
 
 			// Set the span HTML to the contents of the textarea
-			// and store it.
+			// and store the resulting height.
 			textClone.html(textCloneHtml);
 			textCloneHeight = textClone.height();
 				
 			// Adjust textarea height by calculated span height if
-			// span height is greater than default height
+			// span height is greater than default height.
 			if (textCloneHeight > defaultHeight) {
 				$(textArea).height(textCloneHeight);
 			} else {
