@@ -8,13 +8,13 @@ jQuery plugin to automatically resize textareas on focus, blur, keyup, or window
 Set this value to append the clone element to any element of your choice..
 
 #### `defaultRowCount : [Default: row attribute or 2]`
-This will assign the default number of rows the textarea will have when empty. The row attribute take precedence over this value.
+This will assign the default number of rows the textarea will have when empty. The row attribute takes precedence over this value.
 
-#### `events : [Default: 'blur focus keyup']`
-The default textarea events to trigger the autoresize functions. Currently, the **mouseup** event is not configurable.
+#### `events : [Default: 'blur focus keyup mouseup']`
+The default textarea events to trigger the autoresize function.
 
 #### `leadingRows : [Default: 0]`
-This is the number of rows to lead with. If this is set to 1 or '1', there will be an empty leading row in addition to the rows the text will occupy.
+Set the number of leading rows. Example: If this is set to 1 or '1', there will be an empty leading row in addition to the rows the text will occupy.
 
 #### `maxWidth : [Default: '95%']`
 Sets css max-width property.
