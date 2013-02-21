@@ -17,7 +17,7 @@ The default textarea events to trigger the autoresize functions. Currently, the 
 This is the number of rows to lead with. If this is set to 1 or '1', there will be an empty leading row in addition to the rows the text will occupy.
 
 #### `maxWidth : [Default: '95%']`
-This value will restrict the textarea from being resized beyond the confines of the containing element. This comes in really handy when resizing the window or viewing the textarea on a mobile device.
+Sets css max-width property.
 
 ## Example Usage
 
