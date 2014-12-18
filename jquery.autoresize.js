@@ -41,7 +41,7 @@
 			maxWidth: '95%'
 		},
 		settings = $.extend(defaults, options),
-		textClone = $('<span></span>')
+		$textClone = $('<span></span>')
 			.css({
 				'display': 'block',
 				'position': 'absolute',
@@ -50,55 +50,56 @@
 			})
 			.attr('id', 'text_clone')
 			.appendTo(settings.appendToElement),
-		textAreaLastIndex = (this.length - 1),
-		textAreaObjs = [],
-		textAreaRows = [];
+		textareaLastIndex = (this.length - 1),
+		textareas = [],
+		textareaRows = [];
 
 		return this.each(function(index) {
 
 			var
-			textArea = this,
-			defaultRowCount = parseInt( $(textArea).attr('rows') || settings.defaultRowCount );
+			textarea = this,
+			$textarea = $(this),
+			defaultRowCount = parseInt( $textarea.attr('rows') || settings.defaultRowCount );
 
 			// Self explanitory
-			settextAreaStyles(textArea);
+			settextAreaStyles($textarea);
 
 			// Assign the events to each textarea
-			$(textArea).off(settings.events).on(settings.events, function() {
-				adjustHeight(textArea, defaultRowCount);
+			$textarea.on(settings.events, function() {
+				adjustHeight($textarea, defaultRowCount);
 			});
 
 			// Load textarea objects and corresponding rows
-			textAreaObjs.push(textArea);
-			textAreaRows.push(defaultRowCount);
+			textareas.push($textarea);
+			textareaRows.push(defaultRowCount);
 
-			if (index == textAreaLastIndex) {
+			if (index == textareaLastIndex) {
 				$(window).on('resize', function() {
-					for (var i = 0; i <= textAreaLastIndex; i++) {
-						adjustHeight(textAreaObjs[i], textAreaRows[i]);
+					for (var i = 0; i <= textareaLastIndex; i++) {
+						adjustHeight(textareas[i], textareaRows[i]);
 					}
 				});
 			}
 
 			// Initialize on each textarea
-			adjustHeight(textArea, defaultRowCount);
+			adjustHeight($textarea, defaultRowCount);
 		});
 
-		function settextAreaStyles(textArea) {
+		function settextAreaStyles($textarea) {
 
 			var
-			textAreaMaxWidth = $(textArea).css('max-width');
+			textareaMaxWidth = $textarea.css('max-width');
 
 			// Hide scrollbar
-			if ($(textArea).css('overflow') != 'hidden') {
-				$(textArea).css({'overflow':'hidden'});
+			if ($textarea.css('overflow') != 'hidden') {
+				$textarea.css({'overflow':'hidden'});
 			}
 
 			// Set max width
-			if (textAreaMaxWidth == 'none') {
-				$(textArea).css({'max-width': parseMaxWidth(settings.maxWidth)});
+			if (textareaMaxWidth == 'none') {
+				$textarea.css({'max-width': parseMaxWidth(settings.maxWidth)});
 			} else {
-				$(textArea).css({'max-width': parseMaxWidth(textAreaMaxWidth)});
+				$textarea.css({'max-width': parseMaxWidth(textareaMaxWidth)});
 			}
 		}
 
@@ -110,37 +111,37 @@
 			);
 		}
 
-		function adjustHeight(textArea, defaultRows) {
+		function adjustHeight($textarea, defaultRows) {
 
 			var
 			defaultHeight = 0,
 			lineHeight = 0,
 			textCloneHeight = 0,
 			leadingRowsHtml = addLeadingRows(settings.leadingRows),
-			textAreaHtml = $(textArea).val().replace(/\n/g, '<br>'),
-			textCloneHtml = textAreaHtml + leadingRowsHtml;
+			textareaHtml = $textarea.val().replace(/\n/g, '<br>'),
+			textCloneHtml = textareaHtml + leadingRowsHtml;
 
 			// Apply dimensional styles of for accurate calulations.
-			textClone.css(applyDimensionalStyles($(textArea)));
+			$textClone.css(applyDimensionalStyles($textarea));
 
 			// After all styles have been applied get the height
 			// using a test character.
-			lineHeight = textClone.html('A').height();
+			lineHeight = $textClone.html('A').height();
 
 			// Calculate the default height.
 			defaultHeight = ((defaultRows + settings.leadingRows) * lineHeight);
 
 			// Set the span HTML to the contents of the textarea
 			// and store the resulting height.
-			textClone.html(textCloneHtml);
-			textCloneHeight = textClone.height();
+			$textClone.html(textCloneHtml);
+			textCloneHeight = $textClone.height();
 				
 			// Adjust textarea height by calculated span height if
 			// span height is greater than default height.
 			if (textCloneHeight > defaultHeight) {
-				$(textArea).height(textCloneHeight);
+				$textarea.height(textCloneHeight);
 			} else {
-				$(textArea).height(defaultHeight);
+				$textarea.height(defaultHeight);
 			}
 		}
 
@@ -160,7 +161,7 @@
 			return newlines;
 		}
 
-		function applyDimensionalStyles(textArea) {
+		function applyDimensionalStyles($textarea) {
 
 			var
 			css = {},
@@ -174,7 +175,7 @@
 			];
 
 			for (var i = 0, j = properties.length; i < j; i++) {
-				css[properties[i]] = textArea.css(properties[i]);
+				css[properties[i]] = $textarea.css(properties[i]);
 			}
 
 			return css;
